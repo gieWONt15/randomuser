@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Random user API - test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body, html {
+            font-family: 'Lato', sans-serif;
+            background-color: #232321;
+            height: 100%;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+        }
+        .row {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #box {
+            height: 200px;
+            width: 500px;
+        }
+        #user {
+            border: 3px solid white;
+            height: 100%;
+        }
+        h3 {
+            color: white;
+        }
+        h2 {
+            text-align: center;
+            color: white;
+            letter-spacing: 2px;
+            padding: 5px;
+        }
+        hr {
+            width: 100%;
+        }
+        img {
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        p {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="user">
+            <div class="column">
+                <h2>Random user</h2>
+                <hr>
+            </div>
+            <div class="row">
+                <img id="photo" src="" alt="">
+                <div class="column">
+                    <h3 id="name"></h3>
+                    <p id="nick"></p>
+                    <hr>
+                    <br>
+                    <p id="email"></p>
+                    <p id="timezone"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+            fetch("https://randomuser.me/api")
+            .then(response => response.json())
+            .then(data => dataReady(data))
+        }
+        function dataReady(data) {
+            console.log(data)
+            var result = data.results[0]
+
+            var fullName = result.name.title + " " + result.name.first + " " + result.name.last
+            document.getElementById("name").textContent = fullName
+
+            var userName = result.login.username
+            document.getElementById("nick").innerHTML = userName
+
+            var photo = result.picture.large
+            document.getElementById("photo").src = photo
+            
+            var email = result.email
+            document.getElementById("email").textContent = email
+            
+            var country = result.timezone.description
+            document.getElementById("timezone").textContent = country
+            console.log(fullName, photo, email, country)
+        }
+    </script>
+</body>
+</html>
